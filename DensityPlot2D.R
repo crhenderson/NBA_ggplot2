@@ -63,6 +63,8 @@ for(i in 6:32) {
 
 ###########################################################################
 
+##Create 2D Density Plot
+
 library(ggplot2)
 
 text.df <- data.frame(Text = c("Games Won","Games Lost"), x=c(75,137.5),y=c(137.5,75),Rk=1)
@@ -88,6 +90,8 @@ dev.off()
 
 
 ###############################################################################
+
+## Create line plot by opponent
 
 medians <- aggregate(Diff~Tm + Opp + Loc,Y,median)
 medians <- subset(medians, medians$Opp %in% c("SAS","GSW","OKC","CLE","LAC","TOR","MIA","HOU","IND","ATL","CHI","DAL"))

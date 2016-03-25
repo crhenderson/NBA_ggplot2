@@ -12,6 +12,7 @@ rm(list=ls())
 
 options(scipen=999)
 library(SportsAnalytics)
+library(dplyr)
 
 ## Data consists of NBA player statistics for the 2013-2014 season
 data<-fetch_NBAPlayerStatistics(season="15-16")
@@ -160,8 +161,8 @@ top50 <- head(data[order(data$Minutes.PG,decreasing=T),],50)
 ##Limit to just Per Game Stats
 PerGame <- top50[,c(2:4,26:42)]
 
-library(dplyr)
 
+##Do some hierarchical clustering
 clust <- PerGame[,7:20]
 
 clust <- scale(clust)
@@ -169,17 +170,22 @@ clust <- scale(clust)
 require(graphics)
 d <- dist(clust,method="euclidean")
 fit <- hclust(d,method="ward.D2")
+
+##Plot Dendrogram
 png("cluster_dg.png",height = 900, width = 1600)
 plot(fit,labels=PerGame$Name.Pos,cex=.6)
 rect.hclust(fit, k=7, border="red") 
 dev.off()
 
+##Reorder data and add clusters
 memb <- cutree(fit,7)
 ord <- fit$order
 
 PerGame$Cluster <- memb
 PerGame$Cluster <- factor(PerGame$Cluster)
 
+
+##Rearange data into long format
 PerGame <- PerGame[ord,]
 
 PerGameLong <- PerGame
@@ -191,6 +197,7 @@ library(tidyr)
 PerGameLong <- gather(PerGameLong,Statistic, Value, Points.PG:Fouls.PG)
 PerGameLong$NamePos <- factor(PerGameLong$Name.Pos, levels = unique(PerGame$Name.Pos))
 
+##Plot heat map
 p <- ggplot(PerGameLong, aes(Statistic, NamePos)) + 
   geom_tile(aes(fill=Value,col=Cluster),size=1) +
   theme(axis.text.x = element_text(angle=90,hjust=1)) +
