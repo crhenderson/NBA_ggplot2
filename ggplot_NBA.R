@@ -153,6 +153,41 @@ g3 <- ggplot(tp.df, aes(x=Position, y=means)) +
 
 ################################################################################
 
+## Radar Plot
+
+##Get median Per game stats per position  
+medians <- data %>%
+  group_by(Position) %>%
+  summarise(Points = median(Points.PG),
+            Assists = median(Assists.PG),
+            Steals = median(Steals.PG),
+            Turnovers = median(Turnovers.PG),
+            Rebounds = median(Total.Rebounds.PG),
+            Blocks = median(Blocks.PG),
+            Fouls = median(Fouls.PG))
+
+
+##Standardize Medians so all metrics on same scale
+medians[,-1] <- scale(medians[,-1])
+
+##Get in long form  
+library(tidyr)
+medians <- gather(medians, Statistic, Value, Points:Fouls)
+
+##Radar plot
+g4<- ggplot(medians, aes(y = Value, x = Statistic, group=Position, col=Position)) +
+  coord_polar() +
+  geom_polygon(aes(x=Statistic, y=Value, group=Position, fill=Position),alpha=.25, linetype = 1) +
+  geom_point(shape=21) +
+  theme_bw() +
+  xlab("") +
+  ylab("") +
+  ggtitle("Radar Plot: Standardized Median Statistics\nBy Position")
+
+g4
+
+#################################################################################
+
 ##Some Fun
 
 ## Only going to focus on top 50 Minutes Per Game
@@ -191,8 +226,6 @@ PerGame <- PerGame[ord,]
 PerGameLong <- PerGame
 
 PerGameLong[,7:20] <- scale(PerGameLong[,7:20])
-
-library(tidyr)
 
 PerGameLong <- gather(PerGameLong,Statistic, Value, Points.PG:Fouls.PG)
 PerGameLong$NamePos <- factor(PerGameLong$Name.Pos, levels = unique(PerGame$Name.Pos))
