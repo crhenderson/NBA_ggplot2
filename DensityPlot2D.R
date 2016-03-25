@@ -61,6 +61,9 @@ for(i in 6:32) {
   Y[,i] <- to.numeric(Y[,i])
 }
 
+#saveRDS(Y,"TeamData.RDS")
+#readRDS("TeamData.RDS")
+
 ###########################################################################
 
 ##Create 2D Density Plot
@@ -94,13 +97,13 @@ dev.off()
 ## Create line plot by opponent
 
 medians <- aggregate(Diff~Tm + Opp + Loc,Y,median)
-medians <- subset(medians, medians$Opp %in% c("SAS","GSW","OKC","CLE","LAC","TOR","MIA","HOU","IND","ATL","CHI","DAL"))
+medians <- subset(medians, medians$Opp %in% c("SAS","GSW","OKC","LAL","LAC","UTA","MEM","HOU","DEN","POR","PHO","DAL"))
 
 g3 <- ggplot(medians, aes(x=Loc, y=Diff, col=Opp, group = Opp)) +
-  geom_line() +
-  geom_point(shape=21,fill="white") +
+  geom_line(size=1) +
+  geom_point(shape=21,size=2,fill="white") +
   facet_wrap(~Tm) +
-  geom_text(aes(label = Opp,hjust = ifelse(Loc == "Home", 1.5,-1.2))) +
+  geom_text(aes(label = Opp,hjust = ifelse(Loc == "Home", 1.5,-1.1),size=1)) +
   scale_y_continuous(breaks=seq(-12,24,2)) +
   geom_hline(yintercept = 0, linetype="dashed", size=0.5, alpha=.3) +
   ylab("Median Point Differential") +

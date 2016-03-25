@@ -16,6 +16,10 @@ library(dplyr)
 
 ## Data consists of NBA player statistics for the 2013-2014 season
 data<-fetch_NBAPlayerStatistics(season="15-16")
+
+#saveRDS(data,"PlayerData.RDS")
+#readRDS("PlayerData.RDS")
+
 data$Position <- factor(data$Position, levels=c('PG','SG','SF','PF','C'))
 data$FBCourt <- factor(ifelse(data$Position %in% c('PG','SG'),'Backcourt','Frontcourt'))
 
@@ -51,7 +55,7 @@ data$GamesPlayed.Quartile <- cut(data$GamesPlayed,quantile(data$GamesPlayed),inc
 library(ggplot2)
 
 ##Scatter Plots
-#       ggplot(data = , mapping = aes()) +
+#       ggplot(data = , mapping = aes(), ...) +
 #           theme() +
 #           geometry +
 #           features
@@ -150,6 +154,8 @@ g3 <- ggplot(tp.df, aes(x=Position, y=means)) +
   geom_text(aes(y=cil,label = round(cil,1)),vjust=1) +
   ylab("Points Per Game") +
   ggtitle("Average Points Per Game with 95% Error Bars")
+
+g3
 
 ################################################################################
 
