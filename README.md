@@ -35,7 +35,9 @@ This scripts has a few basic examples:
     - Error Bands  
     - Text  
     
-Advanced Example:  
+Advanced Examples:  
+    
+  - Radar plot comparing median standardized median statistics by Position  
   
   - Heat map & Clustering  
     - Use ggplot to create heat map to add context to hierarchical clustering  
