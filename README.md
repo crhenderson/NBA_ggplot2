@@ -64,7 +64,17 @@ This set of examples uses NBA team game statistics for the 2012-13 to 2015-2016 
     - Faceting  
     - Line plots  
     - Overlaid text  
-
+  
+****  
+  
+##Sources for ggplot2 Help  
+  
+  - [R Cookbook Graphs](http://www.cookbook-r.com/Graphs/)  
+  - [ggplot2.org](http://docs.ggplot2.org/0.9.2.1/index.html)  
+  - [stackoverflow](http://stackoverflow.com/)  
+  - [r4stats.com](http://r4stats.com/examples/graphics-ggplot2/)  
+  - [Quick-R](http://www.statmethods.net/advgraphs/ggplot2.html)  
+  - [Google](http://bfy.tw/4wCM)  
 
 
 
